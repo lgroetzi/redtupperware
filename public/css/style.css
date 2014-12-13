@@ -50,6 +50,10 @@ h3 {
   color: #ECBB7B;
 }
 
+h3:before {
+  
+}
+
 .nav {
   margin-bottom: 50px;
 
