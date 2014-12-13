@@ -1,0 +1,78 @@
+* {
+  font-family: 'raleway', san-serif;
+  color: #6a6a6a;
+}
+
+.container {
+  width: 960px;
+  margin: 30px auto 0;
+}
+
+h1, h2 {
+  margin: 0;
+}
+
+ul {
+  margin: 0;
+}
+
+li{
+  list-style: none;
+}
+
+label {
+  display: inline;
+  margin: 0 15px 0 5px;
+}
+
+h1 {
+  color: #5f5f5f;
+  font-size: 16px;
+  line-height: 20px;
+}
+
+h2 {
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  margin-right: 30px;
+  display: inline-block;
+  line-height: 18px;
+  text-transform: uppercase;
+}
+
+.top {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.nav {
+  text-transform: uppercase;
+  margin-bottom: 50px;
+
+}
+.nav li {
+  font-size: 16px;
+  margin-right: 30px;
+  display: inline-block;
+}
+
+.nav li a {
+  color: #6a6a6a;
+}
+
+.nav li a.active {
+  color: #c61f1f
+}
+
+.menu-item {
+  border-top: solid 1px #CBCBCB;
+  padding: 20px 10px;
+}
+
+.menu-page img {
+  margin-bottom: 30px;
+}
+
+.like-count img{
+  display: inline;
+}
