@@ -74,7 +74,7 @@ h2 {
 
 .menu-item {
   border-top: solid 1px #CBCBCB;
-  padding: 20px 10px;
+  padding: 20px 0;
 }
 
 .top-img img {
@@ -82,8 +82,8 @@ h2 {
   display: block;
 }
 
-.like-count img{
-  display: inline;
+.like-count{
+  text-align: right;
 }
 
 .btn {
