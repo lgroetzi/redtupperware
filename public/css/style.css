@@ -13,6 +13,7 @@ h1, h2, h3 {
 
 ul {
   margin: 0;
+  padding: 0;
 }
 
 li{
@@ -30,28 +31,33 @@ label {
 
 h1 {
   color: #5f5f5f;
-  font-size: 18px;
+  font-size: 16px;
   line-height: 20px;
-  margin-bottom: 3px;
 }
 
-.h2 {
+h2, .h2 {
   font-size: 14px;
   text-transform: uppercase;
+  vertical-align: top;
 }
 
-h3 {
+ul.details li {
   font-size: 11px;
   letter-spacing: 0.5px;
-  margin-right: 30px;
   display: inline-block;
   line-height: 18px;
   text-transform: uppercase;
   color: #ECBB7B;
 }
 
-h3:before {
-  
+ul.details li:first-child:before {
+  content: none;
+}
+
+.details li:before {
+  padding: 0 5px;
+  color: #ccc;
+  content: "/\00a0";
 }
 
 .nav {
@@ -60,7 +66,7 @@ h3:before {
 }
 .nav li {
   display: inline-block;
-  margin: 0 10px 0 0;
+  margin: 0 30px 0 0;
 }
 
 .nav li:last-child {
@@ -82,7 +88,7 @@ h3:before {
 }
 
 .menu-item {
-  border-top: solid 1px #CBCBCB;
+  border-top: solid 1px #E4E4E4;
   padding: 20px 0;
 }
 
@@ -97,13 +103,24 @@ h3:before {
   color: #de686a;
 }
 
+.like-count h1 {
+  display: inline;
+  vertical-align: top;
+  line-height: 26px;
+}
+
 .like-count a {
   color: #c61f1f;
 }
 
-.like-count a:hover {
+.like-count a:hover, .like-count .glyphicon-heart:hover  {
   color: #902222;
   text-decoration: none;
+}
+
+.like-count h2 {
+  display: inline;
+  line-height: 26px;
 }
 
 .btn {
