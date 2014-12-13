@@ -1,16 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+	<!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
   <link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<title>Red Tupperware</title>
 </head>
 <body>
-  <div class="container">
+  <div class="container col-md-8 col-md-offset-2">
     <ul class="nav">
-      <li><a href="/" class="active">Menu</a></li>
-      <li><a href="/">Faves</a></li>
+      <li class="col-md-1 pull-left"><a href="/" class="active">Menu</a></li>
+      <li class="col-md-1 pull-left"><a href="/faves" class="">Faves</a></li>
+      <li class="col-md-1 pull-right"><a href="/admin" class="">Admin</a></li>
     </ul>
 
   	<%= yield %>
