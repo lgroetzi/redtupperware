@@ -22,6 +22,7 @@ li{
 
 a{
   padding: 0;
+  color: #c61f1f;
 }
 
 label {
@@ -41,7 +42,7 @@ h2, .h2 {
   vertical-align: top;
 }
 
-ul.details li {
+ul.details li, label {
   font-size: 11px;
   letter-spacing: 0.5px;
   display: inline-block;
@@ -78,7 +79,7 @@ ul.details li:first-child:before {
   padding: 0;
 }
 
-.nav li a.active {
+.nav li a:active {
   color: #c61f1f
 }
 
@@ -90,6 +91,16 @@ ul.details li:first-child:before {
 .menu-item {
   border-top: solid 1px #E4E4E4;
   padding: 20px 0;
+}
+
+.input-group {
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.input-group .form-control {
+  border-radius: 2px;
+  height: 45px;
 }
 
 .top-img img {
@@ -109,18 +120,9 @@ ul.details li:first-child:before {
   line-height: 26px;
 }
 
-.like-count a {
-  color: #c61f1f;
-}
-
 .like-count a:hover, .like-count .glyphicon-heart:hover  {
   color: #902222;
   text-decoration: none;
-}
-
-.like-count h2 {
-  display: inline;
-  line-height: 26px;
 }
 
 .btn {
@@ -130,10 +132,34 @@ ul.details li:first-child:before {
   background-color: #c61f1f;
   color: #fff;
   padding: 10px 30px;
+  border-radius: 0;
+  margin-top: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.btn:hover {
+  background-color: #902222;
+  color: #fff;
 }
 
 .glyphicon-heart {
   font-size: 25px;
   margin-right: 5px;
   color: #de686a;
+}
+
+.admin-page .menu-item {
+  border: none;
+  padding-bottom: 10px;
+}
+
+.admin-page a {
+  margin-top: 20px;
+}
+
+.top h1 {
+  color:#646464;
+  font-size: 20px;
+  margin-bottom: 20px;
 }
