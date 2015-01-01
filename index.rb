@@ -15,3 +15,7 @@ end
 get '/faves' do
   erb :faves
 end
+
+get '/login' do
+  erb :login
+end

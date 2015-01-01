@@ -1,45 +1,62 @@
 <div class="admin-page">
-
   <div class="col-md-10 col-md-offset-1">
     
-    <div class="top text-center">
-      <h1> Happiness Admin </h1>
+    <div class="top row">
+      <h1 class="col-md-3">Build A Menu</h1>
+      <button type="button" class="col-md-2 btn btn-default pull-right">Publish</button>
+      <a href="/" class="col-md-1 pull-right">Save</a>
     </div>
 
-    <div class="menu-item">
-      <div class="input-group">
-        <input type="text" class="form-control" placeholder="Enter menu item">
+    <div class="row menu-item">
+      <div class="col-md-10">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Enter menu item">
+        </div>
+        <div class="controls">
+          <input id='check-1' type="checkbox" name='check-1' checked='checked' />
+          <label for="check-1">Nut-Free</label>
+          
+          <input id='check-2' type="checkbox" name='check-1' />
+          <label for="check-2">Vegetarian</label>
+          <input id='check-3' type="checkbox" name='check-1' />
+          <label for="check-3">Spicy</label>
+        </div>
       </div>
-      
-      <div class="controls">
-        <input id='check-1' type="checkbox" name='check-1' checked='checked' />
-        <label for="check-1">Nut-Free</label>
-        
-        <input id='check-2' type="checkbox" name='check-1' />
-        <label for="check-2">Vegetarian</label>
-        <input id='check-3' type="checkbox" name='check-1' />
-        <label for="check-3">Spicy</label>
-      </div>
+      <button type="button" class="col-md-2 btn btn-default text-center">Add Dish</button>
     </div>
-    <div class="menu-item">
-      <div class="input-group">
-        <input type="text" class="form-control" placeholder="Enter menu item">
+
+    <div class="row menu-list">
+    
+      <div class="row menu-item">
+        <div class="col-md-12">
+          <div class="pull-left col-md-11">
+            <h1>Kale and squash sloppy joes</h1>
+            <ul class="details">
+              <li>Nut-Free</li>
+            </ul>
+          </div>
+          <div class="pull-right col-md-1">
+            <a href="/">Remove</a>
+          </div>
+        </div>
       </div>
       
-      <div class="controls">
-        <input id='check-1' type="checkbox" name='check-1' checked='checked' />
-        <label for="check-1">Nut-Free</label>
-        
-        <input id='check-2' type="checkbox" name='check-1' />
-        <label for="check-2">Vegetarian</label>
-        <input id='check-3' type="checkbox" name='check-1' />
-        <label for="check-3">Spicy</label>
+      <div class="row menu-item">
+        <div class="col-md-12">
+          <div class="pull-left col-md-11">
+            <h1>Cheesy garlic mash potatoes</h1>
+            <ul class="details">
+              <li>Nut-Free</li>
+              <li>Vegetarian</li>
+            <ul>
+          </div>
+          <div class="pull-right col-md-1">
+            <a href="/">Remove</a>
+          </div>
+        </div>
       </div>
-    </div>  
+    
+    </div>   
 
-    <a href="/">+ Add Another Dish</a>
-  </div>
-  <div class="text-center">
-    <button type="button" class="btn btn-default text-center">Save + Send</button>
   </div>
 </div>
