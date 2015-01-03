@@ -1,0 +1,24 @@
+<script type="text/template" id="menu_dish">
+  <div class="row menu-item" id="{{- key }}">
+    <div class="col-d-12">
+      <div class="pull-left col-md-11">
+        <h1>{{- name }}</h1>
+        <ul class="details">
+          <li>Nut-Free</li>
+          <li>Vegetarian</li>
+        <ul>
+      </div>
+      <div class="pull-right col-md-1 like-count">
+        {{ if (rights == 'admin') { }}
+          <a class="delete-item" style="cursor: pointer;">
+            &#10008;
+          </a>
+        {{ } else { }}
+          <a href="/">
+            <span class="glyphicon glyphicon-heart"></span>
+          </a>
+        {{ } }}
+      </div>
+    </div>
+  </div>
+</script>

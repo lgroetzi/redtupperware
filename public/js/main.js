@@ -1,10 +1,12 @@
 _.templateSettings = {
-  interpolate:  /8\=\=\>\-(.+?)\<\=\=8/gim,
-  evaluate:     /8\=\=\>(.+?)\<\=\=8/gim,
-}  
+  interpolate:  /\{\{-(.+?)\}\}/gim,
+  evaluate:     /\{\{(.+?)\}\}/gim,
+} 
 
 $(function() {
-  var ref = new Firebase("https://red-tupperware.firebaseio.com");
+  var ref = new Firebase("https://red-tupperware.firebaseio.com"),
+      dishesRef = new Firebase("https://red-tupperware.firebaseio.com/dishes");
+
   var authData = ref.getAuth();
   if (authData) {
     console.log("User " + authData.uid + " is logged in with " + authData.provider);
@@ -19,7 +21,7 @@ $(function() {
   }
 
   // BEGIN: Admin page
-  if (window.location.pathname === "/") {
+  if (window.location.pathname === "/admin") {
     $('#add-item').click(function() {
         var dishesRef = ref.child("dishes");
         var newDishRef = dishesRef.push();
@@ -29,33 +31,54 @@ $(function() {
           'active': true
         });
     });
+    $("#new-item-input").keyup(function(event){
+        if(event.keyCode == 13){
+            $("#add-item").click();
+        }
+    });
+    
+
+    dishesRef.on("child_added", function(snapshot) {
+      render_menu_item(snapshot, {
+        'rights': 'admin'
+      });
+    });
+    
+    dishesRef.on("child_changed", function(snapshot) {
+      $('#' + snapshot.key()).fadeOut('fast');;
+    });
+
   }
+
+  $(document).on('click', '.delete-item', function() {
+    var id =$(this).parents(".menu-item").attr("id");
+    var itemRef = new Firebase("https://red-tupperware.firebaseio.com/dishes/" + id);
+    itemRef.update({
+      'active': false
+    });
+  });  
  // END: Admin page
 
   // BEGIN: Homepage
   if (window.location.pathname === "/") {
-    var dishesRef = new Firebase("https://red-tupperware.firebaseio.com/dishes");
-
-    // Attach an asynchronous callback to read the data at our posts reference
-    dishesRef.once("value", function(snapshot) {
-      var dishes = snapshot.val();
-
-      // Get the active dishes
-      dishes = _.filter(dishes, function(dish) {
-        return dish.active === true; 
+    dishesRef.on("child_added", function(snapshot) {
+      render_menu_item(snapshot, {
+        'rights': 'user'
       });
-
-      _.forEach(dishes, function (dish) {
-        var menu_item = _.template($('#menu_dish').html(), {
-          'name': dish.name
-        });
-        console.log(menu_item);
-        $('#menu').append(menu_item);
-      });
-    }, function (errorObject) {
-      console.log("The read failed: " + errorObject.code);
     });
   }
   // END: Homepage
 
+  function render_menu_item (snapshot, settings) {
+    var key = snapshot.key();
+    var dish = snapshot.val();
+    if(dish.active === true) {
+      var menu_item = _.template($('#menu_dish').html(), {
+        'name': dish.name,
+        'rights': settings.rights,
+        'key': key
+      });
+      $('#menu').append(menu_item);
+    }
+  }
 });
