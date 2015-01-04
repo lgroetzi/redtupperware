@@ -13,29 +13,46 @@ $(function() {
 
   if (authData) {
     console.log("User " + authData.uid + " is logged in with " + authData.provider);
-  } else {
-    ref.authWithOAuthPopup("google", function(error, authData) {
-      if (error) {
-        console.log("Login Failed!", error);
-      } else {
-        console.log("Authenticated successfully with payload:", authData);
-        var isNewUser;
-
-        usersRef.child(authData.uid).once('value', function(snapshot) {
-          isNewUser = (snapshot.val() === null);
-          if (authData && isNewUser) {
-            // save the user's profile into Firebase so we can list users,
-            // use them in Security and Firebase Rules, and show profiles
-            ref.child("users").child(authData.uid).set(authData);
-            console.log('New user');
-          }          
-        });
+    usersRef.child(authData.uid).once('value', function(snapshot) {
+      admin = snapshot.val().admin;
+      if (admin === true) {
+        $('#header-build').show();
       }
     });
+    $('#header-login').hide();
+  } else {
+    if (window.location.pathname !== '/login') {
+      window.location = "/login";
+    }
   }
-  usersRef.child(authData.uid).once('value', function(snapshot) {
-    admin = snapshot.val().admin;
-  });
+
+  // BEGIN: Login page
+  if (window.location.pathname === "/login") {
+    $('.nav').hide();
+    $('#login-button').click(function() {
+      ref.authWithOAuthPopup("google", function(error, authData) {
+        if (error) {
+          console.log("Login Failed!", error);
+        } else {
+          console.log("Authenticated successfully with payload:", authData);
+          var isNewUser;
+          usersRef.child(authData.uid).once('value', function(snapshot) {
+            isNewUser = (snapshot.val() === null);
+            if (authData && isNewUser) {
+              // save the user's profile into Firebase so we can list users,
+              // use them in Security and Firebase Rules, and show profiles
+              ref.child("users").child(authData.uid).set(authData, function() {
+                window.location = '/';
+              });
+            } else {
+              window.location = '/';
+            }
+          });
+        }
+      });
+    });
+  }
+  // END: Login page
 
   // BEGIN: Admin page
   if (window.location.pathname === "/admin") {
