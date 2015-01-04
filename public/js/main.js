@@ -7,9 +7,10 @@ $(function() {
   var ref       = new Firebase("https://red-tupperware.firebaseio.com"),
       dishesRef = new Firebase("https://red-tupperware.firebaseio.com/dishes"),
       usersRef  = new Firebase("https://red-tupperware.firebaseio.com/users"),
-      admin     = false;
+      likesRef  = new Firebase("https://red-tupperware.firebaseio.com/likes"),      
+      admin     = false,
+      authData  = ref.getAuth();
 
-  var authData = ref.getAuth();
   if (authData) {
     console.log("User " + authData.uid + " is logged in with " + authData.provider);
   } else {
@@ -39,28 +40,27 @@ $(function() {
   // BEGIN: Admin page
   if (window.location.pathname === "/admin") {
     $('#add-item').click(function() {
-          if(admin) {
-          var dishesRef = ref.child("dishes");
-          var newDishRef = dishesRef.push();
-          var dishName = $('#new-item-input').val();
-          newDishRef.set({
-            'name': dishName,
-            'active': true, 
-            'attributes': {
-              'nut-free':   $('#check-1').is(':checked'),
-              'vegetarian': $('#check-2').is(':checked'),
-              'spicy':      $('#check-3').is(':checked'),
-              'dairy':      $('#check-4').is(':checked')
-            }
-          });
-        } else {
-          alert('You must be an admin to add items.');
-        }
+      if(admin) {
+        var newDishRef = dishesRef.push();
+        var dishName = $('#new-item-input').val();
+        newDishRef.set({
+          'name': dishName,
+          'active': true, 
+          'attributes': {
+            'nut-free':   $('#check-1').is(':checked'),
+            'vegetarian': $('#check-2').is(':checked'),
+            'spicy':      $('#check-3').is(':checked'),
+            'dairy':      $('#check-4').is(':checked')
+          }
+        });
+      } else {
+        alert('You must be an admin to add items.');
+      }
     });
     $("#new-item-input").keyup(function(event){
-        if(event.keyCode == 13){
-            $("#add-item").click();
-        }
+      if(event.keyCode == 13){
+        $("#add-item").click();
+      }
     });
 
     dishesRef.on("child_added", function(snapshot) {
@@ -89,8 +89,7 @@ $(function() {
 
   // BEGIN: Homepage
   if (window.location.pathname === "/") {
-    var userLikes = [],
-        likesRef = new Firebase("https://red-tupperware.firebaseio.com/likes/");
+    var userLikes = [];
     
     likesRef.orderByChild("user").equalTo(authData.uid).once("value", function(snapshot) {
       var likeSet = snapshot.val();
@@ -127,18 +126,59 @@ $(function() {
   }
   // END: Homepage
 
-  function render_menu_item (snapshot, settings, userLikes) {
-    var key   = snapshot.key(),
-        dish  = snapshot.val(),
-        liked = ($.inArray(key, userLikes) > -1 );
+  // BEGIN: Faves
+  if (window.location.pathname === "/faves") {
+    var likesSummary = [];
+    likesRef.once('value', function(snapshot) {
+      var likes = snapshot.val();
+      _.forEach(likes, function(like) {
+        var index = _.findIndex(likesSummary, function(summarizedLike) {
+          return summarizedLike.dish === like.dish
+        });
+        if(index === -1) {
+          likesSummary.push({
+            'dish': like.dish,
+            'count': 1 
+          });
+        } else {
+          likesSummary[index].count = likesSummary[index].count +1;
+        }
+      });
+      likesSummary = _.sortBy(likesSummary, function(l) {
+        return l.count * -1;
+      });
+      _.forEach(likesSummary, function(el) {
+        dishesRef.orderByKey().equalTo(el.dish).once('value', function(snapshot) {
+          render_menu_item(snapshot, {
+            'rights': 'display',
+            'count' : el.count
+          },[]);
+        });
+      });
+    });
+  }
+  // END: Faves
 
-    if(dish.active === true) {
+  function render_menu_item (snapshot, settings, userLikes) {
+    var dish;
+    if(_.values(snapshot.val()).length === 1) {
+      dish = _.values(snapshot.val())[0];
+    } else {
+      dish  = snapshot.val();
+    }
+
+    var key   = snapshot.key(),
+        liked = ($.inArray(key, userLikes) > -1 ),
+        count = settings.count || 0;
+
+    if((dish.active === true) || (settings.rights === 'display')) {
       var menu_item = _.template($('#menu_dish').html(), {
         'name': dish.name,
         'rights': settings.rights,
         'key': key,
         'attributes': dish.attributes,
-        'liked': liked
+        'liked': liked,
+        'count': count
       });
       $('#menu').append(menu_item);
     }

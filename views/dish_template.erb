@@ -10,10 +10,13 @@
         <ul>
       </div>
       <div class="pull-right col-md-1 like-count">
-        {{ if (rights == 'admin') { }}
+        {{ if (rights === 'admin') { }}
           <a class="delete-item" style="cursor: pointer;">
             &#10008;
           </a>
+        {{ } else if (rights === 'display') { }}
+          <span class="glyphicon glyphicon-heart"></span>
+          <h1>{{- count }}</h1>
         {{ } else { }}
           <a href="#">
             <span class="like-button glyphicon glyphicon-heart" style="{{ if(liked === true) print('color: #38b800') }}"></span>
