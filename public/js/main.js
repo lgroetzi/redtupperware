@@ -4,8 +4,10 @@ _.templateSettings = {
 } 
 
 $(function() {
-  var ref = new Firebase("https://red-tupperware.firebaseio.com"),
-      dishesRef = new Firebase("https://red-tupperware.firebaseio.com/dishes");
+  var ref       = new Firebase("https://red-tupperware.firebaseio.com"),
+      dishesRef = new Firebase("https://red-tupperware.firebaseio.com/dishes"),
+      usersRef  = new Firebase("https://red-tupperware.firebaseio.com/users"),
+      admin     = false;
 
   var authData = ref.getAuth();
   if (authData) {
@@ -16,27 +18,50 @@ $(function() {
         console.log("Login Failed!", error);
       } else {
         console.log("Authenticated successfully with payload:", authData);
+        var isNewUser;
+
+        usersRef.child(authData.uid).once('value', function(snapshot) {
+          isNewUser = (snapshot.val() === null);
+          if (authData && isNewUser) {
+            // save the user's profile into Firebase so we can list users,
+            // use them in Security and Firebase Rules, and show profiles
+            ref.child("users").child(authData.uid).set(authData);
+            console.log('New user');
+          }          
+        });
       }
     });
   }
+  usersRef.child(authData.uid).once('value', function(snapshot) {
+    admin = snapshot.val().admin;
+  });
 
   // BEGIN: Admin page
   if (window.location.pathname === "/admin") {
     $('#add-item').click(function() {
-        var dishesRef = ref.child("dishes");
-        var newDishRef = dishesRef.push();
-        var dishName = $('#new-item-input').val();
-        newDishRef.set({
-          'name': dishName,
-          'active': true
-        });
+          if(admin) {
+          var dishesRef = ref.child("dishes");
+          var newDishRef = dishesRef.push();
+          var dishName = $('#new-item-input').val();
+          newDishRef.set({
+            'name': dishName,
+            'active': true, 
+            'attributes': {
+              'nut-free':   $('#check-1').is(':checked'),
+              'vegetarian': $('#check-2').is(':checked'),
+              'spicy':      $('#check-3').is(':checked'),
+              'dairy':      $('#check-4').is(':checked')
+            }
+          });
+        } else {
+          alert('You must be an admin to add items.');
+        }
     });
     $("#new-item-input").keyup(function(event){
         if(event.keyCode == 13){
             $("#add-item").click();
         }
     });
-    
 
     dishesRef.on("child_added", function(snapshot) {
       render_menu_item(snapshot, {
@@ -48,35 +73,72 @@ $(function() {
       $('#' + snapshot.key()).fadeOut('fast');;
     });
 
+    $(document).on('click', '.delete-item', function() {
+      if(admin) {
+        var id = $(this).parents(".menu-item").attr("id");
+        var itemRef = new Firebase("https://red-tupperware.firebaseio.com/dishes/" + id);
+        itemRef.update({
+          'active': false
+        });
+      } else {
+        alert('You must be an admin to delete items.')
+      }
+    });  
   }
-
-  $(document).on('click', '.delete-item', function() {
-    var id =$(this).parents(".menu-item").attr("id");
-    var itemRef = new Firebase("https://red-tupperware.firebaseio.com/dishes/" + id);
-    itemRef.update({
-      'active': false
-    });
-  });  
  // END: Admin page
 
   // BEGIN: Homepage
   if (window.location.pathname === "/") {
-    dishesRef.on("child_added", function(snapshot) {
-      render_menu_item(snapshot, {
-        'rights': 'user'
+    var userLikes = [],
+        likesRef = new Firebase("https://red-tupperware.firebaseio.com/likes/");
+    
+    likesRef.orderByChild("user").equalTo(authData.uid).once("value", function(snapshot) {
+      var likeSet = snapshot.val();
+      _.forEach(likeSet, function(like) {
+        userLikes.push(like.dish);
+      });
+      dishesRef.on("child_added", function(snapshot) {
+        render_menu_item(snapshot, {
+          'rights': 'user'
+        },
+        userLikes);
+      });
+    });
+
+    $(document).on('click', '.like-button', function() {
+      var id = $(this).parents(".menu-item").attr("id"),        
+          match_count = 0,
+          that = $(this);
+      likesRef.orderByChild("dish").equalTo(id).once("value", function(snapshot) {
+        var likes = snapshot.val();
+        _.forEach(likes, function(like) {
+          if(like.user === authData.uid) match_count++;
+        });
+        if(match_count === 0) {
+          likesRef.push({
+            'user': authData.uid,
+            'dish': id
+          }, function() {
+            that.css('color', '#38b800');
+          });
+        }
       });
     });
   }
   // END: Homepage
 
-  function render_menu_item (snapshot, settings) {
-    var key = snapshot.key();
-    var dish = snapshot.val();
+  function render_menu_item (snapshot, settings, userLikes) {
+    var key   = snapshot.key(),
+        dish  = snapshot.val(),
+        liked = ($.inArray(key, userLikes) > -1 );
+
     if(dish.active === true) {
       var menu_item = _.template($('#menu_dish').html(), {
         'name': dish.name,
         'rights': settings.rights,
-        'key': key
+        'key': key,
+        'attributes': dish.attributes,
+        'liked': liked
       });
       $('#menu').append(menu_item);
     }
