@@ -141,7 +141,7 @@ $(function() {
             'user': authData.uid,
             'dish': id
           }, function() {
-            that.css('color', '#38b800');
+            that.css('color', '#de686a');
           });
         }
       });

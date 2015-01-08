@@ -1,7 +1,7 @@
 <script type="text/template" id="menu_dish">
   <div class="row menu-item" id="{{- key }}">
     <div class="col-d-12">
-      <div class="pull-left col-md-11">
+      <div class="pull-left col-md-10 col-xs-9">
         <h1>{{- name }}</h1>
         <ul class="details">
           {{ _.forIn(attributes, function(value, key) { }}
@@ -9,7 +9,7 @@
           {{ }); }}
         <ul>
       </div>
-      <div class="pull-right col-md-1 like-count">
+      <div class="pull-right col-md-2 col-xs-3 like-count">
         {{ if (rights === 'admin') { }}
           <a class="delete-item" style="cursor: pointer;">
             &#10008;
@@ -19,7 +19,7 @@
           <h1>{{- count }}</h1>
         {{ } else { }}
           <a href="#">
-            <span class="like-button glyphicon glyphicon-heart" style="{{ if(liked === true) print('color: #38b800') }}"></span>
+            <span class="like-button glyphicon glyphicon-heart" style="{{ if(liked === true) print('color: #de686a') }}"></span>
           </a>
         {{ } }}
       </div>
