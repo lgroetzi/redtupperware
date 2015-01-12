@@ -122,9 +122,12 @@ ul.details li:first-child:before {
   line-height: 26px;
 }
 
-.like-count a:hover, .like-count .glyphicon-heart:hover  {
+.like-count .clickable-heart .glyphicon-heart:hover  {
   color: #902222;
   text-decoration: none;
+}
+.like-count .clickable-heart .glyphicon-heart {
+  color: #FAC079;
 }
 
 .btn {
@@ -147,7 +150,7 @@ ul.details li:first-child:before {
 .glyphicon-heart {
   font-size: 25px;
   margin-right: 5px;
-  color: #ECBF87;
+  color: #de686a;
 }
 
 .admin-page a {
