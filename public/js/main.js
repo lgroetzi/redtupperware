@@ -42,20 +42,17 @@ $(function() {
           alert(error);
         } else {
           console.log("Authenticated successfully with payload:", authData);
-          alert('step 1');
           var isNewUser;
           usersRef.child(authData.uid).once('value', function(snapshot) {
             isNewUser = (snapshot.val() === null);
             if (authData && isNewUser) {
-              alert('step 2');
               // save the user's profile into Firebase so we can list users,
               // use them in Security and Firebase Rules, and show profiles
               ref.child("users").child(authData.uid).set(authData, function() {
                 top.window.location = '/index';
               });
             } else {
-              alert('step 3');
-              top.window.location = '/index';
+              top.window.location = 'http://www.redtupperware.com/index';
             }
           });
         }
