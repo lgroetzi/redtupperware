@@ -42,7 +42,11 @@ $(function() {
           alert(error);
         } else {
           console.log("Authenticated successfully with payload:", authData);
+<<<<<<< HEAD
           alert('step 1');
+=======
+          alert('gotcha');
+>>>>>>> fa42787105e15c086c03660c075bff4bc41837f6
           var isNewUser;
           usersRef.child(authData.uid).once('value', function(snapshot) {
             isNewUser = (snapshot.val() === null);
