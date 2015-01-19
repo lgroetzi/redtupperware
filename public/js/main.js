@@ -36,7 +36,7 @@ $(function() {
   if (window.location.pathname === "/login") {
     $('.nav').hide();
     $('#login-button').click(function() {
-      ref.authWithOAuthRedirect("google", function(error, authData) {
+      ref.authWithOAuthPopup("google", function(error, authData) {
         if (error) {
           console.log("Login Failed!", error);
         } else {
