@@ -8,6 +8,10 @@ get '/' do
   erb :index
 end
 
+get '/index' do
+  erb :index
+end
+
 get '/admin' do
   erb :admin
 end

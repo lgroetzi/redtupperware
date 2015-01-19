@@ -39,24 +39,23 @@ $(function() {
       ref.authWithOAuthPopup("google", function(error, authData) {
         if (error) {
           //console.log("Login Failed!", error);
-          if (error.code === "TRANSPORT_UNAVAILABLE") {
-            // fall-back to browser redirects, and pick up the session
-            // automatically when we come back to the origin page
-            ref.authWithOAuthRedirect("google", function(error, authData) { /* ... */ });
-          }
+          alert(error);
         } else {
           console.log("Authenticated successfully with payload:", authData);
+          alert('step 1');
           var isNewUser;
           usersRef.child(authData.uid).once('value', function(snapshot) {
             isNewUser = (snapshot.val() === null);
             if (authData && isNewUser) {
+              alert('step 2');
               // save the user's profile into Firebase so we can list users,
               // use them in Security and Firebase Rules, and show profiles
               ref.child("users").child(authData.uid).set(authData, function() {
-                window.location = '/';
+                top.window.location = '/index';
               });
             } else {
-              window.location = '/';
+              alert('step 3');
+              top.window.location = '/index';
             }
           });
         }
