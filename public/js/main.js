@@ -39,13 +39,10 @@ $(function() {
       ref.authWithOAuthPopup("google", function(error, authData) {
         if (error) {
           //console.log("Login Failed!", error);
-          if (error.code === "TRANSPORT_UNAVAILABLE") {
-            // fall-back to browser redirects, and pick up the session
-            // automatically when we come back to the origin page
-            ref.authWithOAuthRedirect("google", function(error, authData) { /* ... */ });
-          }
+          alert(error);
         } else {
           console.log("Authenticated successfully with payload:", authData);
+          alert('gotcha');
           var isNewUser;
           usersRef.child(authData.uid).once('value', function(snapshot) {
             isNewUser = (snapshot.val() === null);
