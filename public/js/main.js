@@ -48,10 +48,10 @@ $(function() {
               // save the user's profile into Firebase so we can list users,
               // use them in Security and Firebase Rules, and show profiles
               ref.child("users").child(authData.uid).set(authData, function() {
-                top.window.location = '/index';
+                top.window.location = '/';
               });
             } else {
-              top.window.location = '/index';
+              top.window.location = '/';
             }
           });
         }
