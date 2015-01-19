@@ -38,8 +38,7 @@ $(function() {
     $('#login-button').click(function() {
       ref.authWithOAuthPopup("google", function(error, authData) {
         if (error) {
-          //console.log("Login Failed!", error);
-          alert(error);
+          console.log("Login Failed!", error);
         } else {
           console.log("Authenticated successfully with payload:", authData);
           var isNewUser;
@@ -52,7 +51,7 @@ $(function() {
                 top.window.location = '/index';
               });
             } else {
-              top.window.location = 'http://www.redtupperware.com/index';
+              top.window.location = '/index';
             }
           });
         }
