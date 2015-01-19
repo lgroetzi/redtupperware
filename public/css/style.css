@@ -162,3 +162,33 @@ ul.details li:first-child:before {
   font-size: 20px;
   margin-bottom: 40px;
 }
+
+/* LOGIN PAGE */
+.login-pg {
+  padding: 20% 0;
+  margin: 10% 0;
+}
+
+.login-pg .glyphicon-heart {
+  font-size: 14px;  
+}
+
+.login-pg h1 {
+  font-size: 14px; 
+  margin-top: 40px;
+  margin-bottom: 1  0px; 
+}
+
+.login-btn {
+  width: 300px;
+  margin: 20px auto;
+}
+
+.border {
+  border: solid 1px #E4E4E4;
+}
+
+.btn-container {
+  width: 300px;
+  margin: 0 auto 10px;
+}
