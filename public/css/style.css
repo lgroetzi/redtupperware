@@ -80,8 +80,8 @@ ul.details li:first-child:before {
   margin: 0 30px 0 0;
 }
 
-.nav li:last-child {
-  margin-right: 0;
+.nav li.last-child {
+  margin: 0;
 }
 
 .nav li a {
@@ -103,8 +103,8 @@ ul.details li:first-child:before {
   padding: 50px 0;
 }
 
-.spoon {
-  margin-top: 5px;
+img.spoon {
+  margin-top: 12%;
 }
 
 .menu-item {
