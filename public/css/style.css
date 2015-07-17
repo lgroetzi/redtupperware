@@ -159,6 +159,24 @@ img.spoon {
   letter-spacing: 1px;
 }
 
+.btn:focus, .btn:visited {
+  background-image: none;
+  border: none;
+  text-shadow: none;
+  background-color: #c61f1f;
+  color: #fff;
+  padding: 10px 30px;
+  border-radius: 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  outline: none;
+}
+
+input, button, .btn {
+  outline:none;
+  border: 0;
+}
+
 .btn:hover {
   background-color: #902222;
   color: #fff;
