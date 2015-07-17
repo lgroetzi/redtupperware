@@ -1,5 +1,5 @@
 * {
-  font-family: 'raleway', san-serif;
+  font-family: 'raleway', sans-serif;
   color: #6a6a6a;
 }
 
@@ -44,13 +44,21 @@ h2, .h2 {
   vertical-align: top;
 }
 
-ul.details li, label {
+h4 {
+  font-size: 16px;
+  line-height: 26px;
+  letter-spacing: 0.5;
+}
+
+ul.details li, label, h3 {
+  font-family: 'arvo', serif;
   font-size: 11px;
   letter-spacing: 0.5px;
   display: inline-block;
   line-height: 18px;
   text-transform: uppercase;
   color: #ECBB7B;
+  font-weight: 300;
 }
 
 ul.details li:first-child:before {
@@ -88,6 +96,15 @@ ul.details li:first-child:before {
 .nav li a:hover {
   color: #c61f1f;
   background: none;
+}
+
+.border-section {
+  border-top: solid 1px #E4E4E4;
+  padding: 50px 0;
+}
+
+.spoon {
+  margin-top: 5px;
 }
 
 .menu-item {

@@ -12,8 +12,12 @@ get '/admin' do
   erb :admin
 end
 
-get '/faves' do
+get '/hall-of-faves' do
   erb :faves
+end
+
+get '/the-scoop' do
+  erb :scoop
 end
 
 get '/login' do

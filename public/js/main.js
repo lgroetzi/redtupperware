@@ -21,10 +21,10 @@ $(function() {
     });
     $('#header-login').hide();
     $('#header-logout').show();
-  } else {
-    if (window.location.pathname !== '/login') {
-      window.location = "/login";
-    }
+  // } else {
+  //   if (window.location.pathname !== '/login') {
+  //     window.location = "/login";
+  //   }
   }
 
   $('#header-logout').click(function() {
