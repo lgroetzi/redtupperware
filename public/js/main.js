@@ -21,10 +21,6 @@ $(function() {
     });
     $('#header-login').hide();
     $('#header-logout').show();
-  // } else {
-  //   if (window.location.pathname !== '/login') {
-  //     window.location = "/login";
-  //   }
   }
 
   $('#header-logout').click(function() {
@@ -113,38 +109,43 @@ $(function() {
   // BEGIN: Homepage
   if (window.location.pathname === "/") {
     var userLikes = [];
-    
-    likesRef.orderByChild("user").equalTo(authData.uid).once("value", function(snapshot) {
-      var likeSet = snapshot.val();
-      _.forEach(likeSet, function(like) {
-        userLikes.push(like.dish);
+    if (authData) {
+      likesRef.orderByChild("user").equalTo(authData.uid).once("value", function(snapshot) {
+        var likeSet = snapshot.val();
+        _.forEach(likeSet, function(like) {
+          userLikes.push(like.dish);
+        });
       });
-      dishesRef.on("child_added", function(snapshot) {
-        render_menu_item(snapshot, {
-          'rights': 'user'
-        },
-        userLikes);
-      });
+    }
+    dishesRef.on("child_added", function(snapshot) {
+      render_menu_item(snapshot, {
+        'rights': 'user'
+      },
+      userLikes);
     });
 
     $(document).on('click', '.like-button', function() {
-      var id = $(this).parents(".menu-item").attr("id"),        
-          match_count = 0,
-          that = $(this);
-      likesRef.orderByChild("dish").equalTo(id).once("value", function(snapshot) {
-        var likes = snapshot.val();
-        _.forEach(likes, function(like) {
-          if(like.user === authData.uid) match_count++;
-        });
-        if(match_count === 0) {
-          likesRef.push({
-            'user': authData.uid,
-            'dish': id
-          }, function() {
-            that.css('color', '#de686a');
+      if(authData) {
+        var id = $(this).parents(".menu-item").attr("id"),        
+            match_count = 0,
+            that = $(this);
+        likesRef.orderByChild("dish").equalTo(id).once("value", function(snapshot) {
+          var likes = snapshot.val();
+          _.forEach(likes, function(like) {
+            if(like.user === authData.uid) match_count++;
           });
-        }
-      });
+          if(match_count === 0) {
+            likesRef.push({
+              'user': authData.uid,
+              'dish': id
+            }, function() {
+              that.css('color', '#de686a');
+            });
+          }
+        });
+      } else {
+        window.location = "/login";
+      }
     });
   }
   // END: Homepage
